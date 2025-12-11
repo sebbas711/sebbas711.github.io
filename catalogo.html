@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catálogo Virtual - AMERICANMOON</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <style>
+    :root {
+      --accent: #ff9f31;
+      --dark-bg: #121212;
+      --card-bg: #1a1a1a;
+      --text-light: #e0e0e0;
+      --border-dark: #2d2d2d;
+    }
+
+    body {
+      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('img/001.png') fixed no-repeat center/cover;
+      color: var(--text-light);
+      font-family: 'Inter', system-ui, Arial, sans-serif;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      border-radius: 8px;
+    }
+
+    .header-text {
+      color: #ff9f31;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(255, 159, 49, 0.3);
+    }
+
+    .product-img {
+      height: 260px;
+      background: linear-gradient(180deg, #111, #222);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-img img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-img img {
+      transform: scale(1.05);
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-title {
+      font-weight: 600;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .product-price {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+
+    .product-meta {
+      font-size: 13px;
+      color: #b0b0b0;
+      margin-top: 5px;
+    }
+
+    .cart-icon {
+      font-size: 22px;
+      color: #ff9f31;
+      transition: transform 0.2s ease;
+    }
+
+    .cart-icon:hover {
+      transform: scale(1.1);
+      color: #ff8c1a;
+    }
+
+    .cart-count {
+      background: #ff9f31;
+      color: black;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: black;
+      border: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-accent:hover {
+      background: #ff8c1a;
+      transform: scale(1.05);
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+    }
+
+    .modal-header, .modal-footer {
+      border-color: var(--border-dark);
+    }
+
+    .cart-item {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .cart-total {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .contact-button {
+      transition: all 0.3s ease;
+    }
+
+    .contact-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 159, 49, 0.4);
+    }
+
+    .contact-button[href*="wa.me"] {
+      background: #25D366 !important;
+      color: white !important;
+    }
+
+    .contact-button[href*="wa.me"]:hover {
+      background: #1da85f !important;
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4) !important;
+    }
+
+    @media (max-width: 768px) {
+      .product-img { height: 200px; }
+      .product-title { font-size: 14px; }
+      .product-price { font-size: 16px; }
+    }
+
+    .navbar {
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      background-color: rgba(20, 20, 20, 0.9);
+    }
+
+    .navbar.scrolled {
+      background-color: rgba(10, 10, 10, 0.95) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Footer buttons más pequeños */
+    .contact-button {
+      padding: 8px 16px !important;
+      font-size: 14px !important;
+      border-radius: 40px !important;
+    }
+    /* Estilos para los botones del footer */
+.contact-button {
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  border-radius: 40px !important;
+  transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 159, 49, 0.4);
+}
+
+/* Para WhatsApp, color oficial */
+.contact-button[href*="wa.me"] {
+  background: #25D366 !important;
+  color: white !important;
+}
+
+.contact-button[href*="wa.me"]:hover {
+  background: #1da85f !important;
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4) !important;
+}
+/* Para los botones naranjas (teléfono y correo), asegurar que el texto sea negro */
+.contact-button:not([href*="wa.me"]) {
+  background: #ff9f31 !important;
+  color: black !important;
+}
+
+/* Asegurar que el texto sea negro al hacer hover también */
+.contact-button:not([href*="wa.me"]):hover {
+  color: black !important;
+}
+  </style>
+</head>
+<body>
+  <div class="container-fluid p-0">
+    <!-- Navbar Fijo -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm position-sticky top-0" style="z-index: 1000;">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="img/025.png" alt="Logo AMERICANMOON" class="me-2">
+          <span class="header-text fs-4 fw-bold">AMERICANMOON</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center position-relative" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
+                <i class="fas fa-shopping-cart cart-icon me-2"></i>
+                <span id="cart-count" class="cart-count position-absolute top-50 end-0 translate-middle-y">0</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-12 text-center mb-4">
+          <h1 class="display-5 fw-bold header-text">CATÁLOGO — AMERICANMOON</h1>
+          <p class="lead">Camisas estampadas — precio único y tallas disponibles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="container mt-4">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-md-6">
+          <div class="info-card h-100">
+            <h3 class="text-warning"><i class="fas fa-heart me-2"></i> AMERICANMOON <i class="fas fa-heart ms-2"></i></h3>
+            <p class="mt-3">
+              AMERICANMOON es una marca enfocada en camisas estampadas modernas y cómodas.
+              Ofrecemos variedad de tallas (S a XXL), diseños actuales y precios accesibles para ventas por unidad y por mayor.
+              Calidad pensada para clientes que buscan estilo a buen precio.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="info-card h-100">
+            <h3 class="text-danger"><i class="fas fa-fire me-2"></i> Promociones <i class="fas fa-fire ms-2"></i></h3>
+            <ul class="mt-3">
+              <li>Lleva 2 por <strong>$80.000</strong></li>
+              <li>Lleva 12 por <strong>$420.000</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="container mt-5">
+      <h2 class="mb-4 text-center header-text">Nuestros Productos</h2>
+      <div class="row g-4" id="catalog">
+        <!-- Productos generados por JS -->
+      </div>
+    </div>
+
+    <!-- Footer Contáctanos -->
+<!-- Footer Contáctanos -->
+<footer class="bg-dark text-center py-4 mt-5" style="border-top: 1px solid #2d2d2d;">
+  <div class="container">
+    <h3 class="text-warning mb-4" style="font-weight: 700; letter-spacing: 1px;">Contáctanos</h3>
+    <div class="d-flex flex-wrap justify-content-center gap-2">
+      <!-- Botón Teléfono -->
+      <a href="tel:+573132044493" class="btn contact-button d-flex align-items-center">
+        <i class="fas fa-phone me-2"></i> +57 313 204 4493
+      </a>
+
+      <!-- Botón WhatsApp -->
+      <a href="https://wa.me/573132044493" target="_blank" class="btn contact-button d-flex align-items-center">
+        <i class="fab fa-whatsapp me-2"></i> WhatsApp
+      </a>
+
+      <!-- Botón Correo -->
+      <a href="mailto:americanmoon777@gmail.com" class="btn contact-button d-flex align-items-center">
+        <i class="fas fa-envelope me-2"></i> AMERICANMOON777
+      </a>
+    </div>
+  </div>
+</footer>
+
+    <!-- Footer Copyright -->
+    <footer class="bg-dark text-center py-3">
+      <p class="mb-0" style="color: #b0b0b0; font-size: 14px;">AMERICANMOON © 2025</p>
+    </footer>
+  </div>
+
+  <!-- Modal: Detalle del Producto -->
+  <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productModalLabel">Detalles del Producto</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img id="modal-product-img" src="" alt="Producto" class="img-fluid rounded" style="max-height: 300px; object-fit: contain;">
+            </div>
+            <div class="col-md-6">
+              <h4 id="modal-product-name" class="mb-3" style="color: white; font-weight: 600;">Nombre del Producto</h4>
+              <p id="modal-product-desc" class="text-light mb-3" style="font-size: 16px; line-height: 1.5;">
+                Camisa estampada de alta calidad, ideal para cualquier ocasión.
+              </p>
+              <p><strong>Precio:</strong> <span id="modal-product-price" class="text-warning fs-5">$0</span></p>
+              <p><strong>Tallas disponibles:</strong> <span id="modal-product-sizes">S, M, L, XL, XXL</span></p>
+              <p><strong>Colores disponibles:</strong> <span id="modal-product-colors">Variedad de colores</span></p>
+
+              <!-- Selector de Cantidad -->
+              <div class="mt-4">
+                <label for="quantity" class="form-label text-light">Cantidad:</label>
+                <div class="d-flex align-items-center">
+                  <button type="button" class="btn btn-outline-secondary" id="decrease-qty">-</button>
+                  <input type="number" id="quantity" class="form-control mx-2 text-center" value="1" min="1" max="99" style="width: 60px;">
+                  <button type="button" class="btn btn-outline-secondary" id="increase-qty">+</button>
+                </div>
+              </div>
+
+              <!-- Subtotal -->
+              <div class="mt-3">
+                <strong class="text-light">Subtotal:</strong> <span id="subtotal" class="text-warning fs-5">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-accent" id="add-to-cart-btn">Añadir al Carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Carrito -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">Tu Carrito de Compras</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cart-items">
+            <p class="text-center text-muted">Tu carrito está vacío.</p>
+          </div>
+          <div class="mt-4">
+            <hr>
+            <div class="d-flex justify-content-between">
+              <strong class="text-light">Total:</strong>
+              <span id="cart-total" class="cart-total">$0</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir Comprando</button>
+          <button type="button" class="btn btn-accent" id="checkout-btn">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Productos
+    const products = [
+      {id:1, name:'Camisa Estampada Steelers', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/001.jpeg'},
+      {id:2, name:'Camisa Estampada Dolphins', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/002.jpeg'},
+      {id:3, name:'Camisa Estampada Indians', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/003.jpeg'},
+      {id:4, name:'Camisa Estampada Bulls', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/004.jpeg'},
+      {id:5, name:'Camisa Estampada Magic', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/005.jpeg'},
+      {id:6, name:'Camisa Estampada Hornets', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/006.jpeg'},
+      {id:7, name:'Camisa Estampada Vikings', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/007.jpeg'},
+      {id:8, name:'Camisa Estampada Tar Heels', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/008.jpeg'},
+      {id:9, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/025.jpeg'},
+      {id:10, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/010.jpeg'},
+      {id:11, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/011.jpeg'},
+      {id:12, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/012.jpeg'},
+      {id:13, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/013.jpeg'},
+      {id:14, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/014.jpeg'},
+      {id:15, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/015.jpeg'},
+      {id:16, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/016.jpeg'},
+      {id:17, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/017.jpeg'},
+      {id:18, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/018.jpeg'},
+      {id:19, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/019.jpeg'},
+      {id:20, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/020.jpeg'},
+      {id:21, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/021.jpeg'},
+      {id:22, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/022.jpeg'},
+      {id:23, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/023.jpeg'},
+      {id:24, name:'Camisa Estampada', price:44990, sizes:'S,M,L,XL,XXL', colors:'Colores disponibles', img:'img/024.jpeg'}
+    ];
+
+    let cart = [];
+    const catalogElement = document.getElementById('catalog');
+    const cartCountElement = document.getElementById('cart-count');
+    const cartItemsElement = document.getElementById('cart-items');
+    const cartTotalElement = document.getElementById('cart-total');
+
+    function renderProducts() {
+      catalogElement.innerHTML = '';
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'col-md-6 col-lg-4 col-xl-3';
+        card.innerHTML = `
+          <div class="product-card">
+            <div class="product-img">
+              <img src="${product.img}" alt="${product.name}" loading="lazy">
+            </div>
+            <div class="product-info">
+              <div class="product-title">${product.name}</div>
+              <div class="product-meta">Tallas: ${product.sizes} · ${product.colors}</div>
+              <div class="product-price">$${product.price.toLocaleString()}</div>
+            </div>
+          </div>
+        `;
+        catalogElement.appendChild(card);
+        card.querySelector('.product-card').addEventListener('click', () => showProductDetail(product));
+      });
+    }
+
+    // Show Product Detail Modal
+function showProductDetail(product) {
+  const modal = new bootstrap.Modal(document.getElementById('productModal'));
+  document.getElementById('modal-product-img').src = product.img;
+  document.getElementById('modal-product-name').textContent = product.name;
+  document.getElementById('modal-product-desc').textContent = `Camisa estampada de alta calidad, ideal para cualquier ocasión.`;
+  document.getElementById('modal-product-price').textContent = `$${product.price.toLocaleString()}`;
+  document.getElementById('modal-product-sizes').textContent = product.sizes;
+  document.getElementById('modal-product-colors').textContent = product.colors;
+
+  // ⭐️ REINICIAR CANTIDAD A 1 CADA VEZ QUE SE ABRE EL MODAL ⭐️
+  let quantity = 1;
+
+  function updateSubtotal() {
+    const subtotal = product.price * quantity;
+    document.getElementById('subtotal').textContent = `$${subtotal.toLocaleString()}`;
+  }
+
+  // Configurar el input de cantidad
+  const quantityInput = document.getElementById('quantity');
+  quantityInput.value = quantity;
+  quantityInput.addEventListener('change', () => {
+    const val = parseInt(quantityInput.value);
+    if (val >= 1 && val <= 99) {
+      quantity = val;
+      updateSubtotal();
+    } else {
+      quantityInput.value = quantity;
+    }
+  });
+
+  // Botones + y -
+  document.getElementById('increase-qty').addEventListener('click', () => {
+    if (quantity < 99) {
+      quantity++;
+      quantityInput.value = quantity;
+      updateSubtotal();
+    }
+  });
+
+  document.getElementById('decrease-qty').addEventListener('click', () => {
+    if (quantity > 1) {
+      quantity--;
+      quantityInput.value = quantity;
+      updateSubtotal();
+    }
+  });
+
+  // Acción del botón "Añadir al Carrito"
+  document.getElementById('add-to-cart-btn').onclick = () => {
+    addToCart(product, quantity);
+    modal.hide();
+  };
+
+  // Actualizar subtotal inicial
+  updateSubtotal();
+
+  // Mostrar el modal
+  modal.show();
+}
+
+    function addToCart(product, quantity = 1) {
+      const existing = cart.find(item => item.id === product.id);
+      if (existing) existing.quantity += quantity;
+      else cart.push({ ...product, quantity });
+      updateCart();
+      pulseCartIcon();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      updateCart();
+    }
+
+    function decreaseQuantity(productId) {
+      const item = cart.find(item => item.id === productId);
+      if (item && item.quantity > 1) {
+        item.quantity--;
+        updateCart();
+      }
+    }
+
+    function increaseQuantity(productId) {
+      const item = cart.find(item => item.id === productId);
+      if (item && item.quantity < 99) {
+        item.quantity++;
+        updateCart();
+      }
+    }
+
+    function updateQuantity(productId, newValue) {
+      const item = cart.find(item => item.id === productId);
+      const val = parseInt(newValue);
+      if (val >= 1 && val <= 99) {
+        item.quantity = val;
+      } else {
+        // Restablecer valor visual en el input
+        const input = document.querySelector(`input[onchange*="updateQuantity(${productId}"]`);
+        if (input) input.value = item.quantity;
+      }
+      updateCart();
+    }
+
+    function updateCart() {
+      cartCountElement.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (cart.length === 0) {
+        cartItemsElement.innerHTML = '<p class="text-center text-muted">Tu carrito está vacío.</p>';
+        cartTotalElement.textContent = '$0';
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        html += `
+          <div class="cart-item d-flex align-items-center">
+            <div class="flex-grow-1">
+              <strong>${item.name}</strong>
+              <br><small>Tallas: ${item.sizes}</small>
+            </div>
+            <div class="d-flex align-items-center me-3">
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="decreaseQuantity(${item.id})">-</button>
+              <input type="number" class="form-control form-control-sm mx-1 text-center" value="${item.quantity}" min="1" max="99" style="width: 50px;" onchange="updateQuantity(${item.id}, this.value)">
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="increaseQuantity(${item.id})">+</button>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="me-3">$${itemTotal.toLocaleString()}</span>
+              <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      cartItemsElement.innerHTML = html;
+      cartTotalElement.textContent = `$${total.toLocaleString()}`;
+    }
+
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Tu carrito está vacío.');
+        return;
+      }
+
+      let message = "Hola, quiero comprar los siguientes productos:\n\n";
+      cart.forEach(item => {
+        message += `- ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toLocaleString()}\n`;
+      });
+      message += `\nTotal: $${cart.reduce((t, i) => t + i.price * i.quantity, 0).toLocaleString()}`;
+
+      const phone = "+573132044493";
+      const encoded = encodeURIComponent(message);
+      window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank');
+
+      cart = [];
+      updateCart();
+      bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+    });
+
+    function pulseCartIcon() {
+      const icon = document.querySelector('.cart-icon');
+      icon.style.transform = 'scale(1.2)';
+      setTimeout(() => icon.style.transform = 'scale(1)', 300);
+    }
+
+    window.addEventListener('scroll', () => {
+      document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+      updateCart();
+    });
+  </script>
+</body>
+</html>
